@@ -15,7 +15,8 @@ const createShortUrl = async (req, res) => {
       visitHistory: [],
     });
     await newURL.save();
-    res.status(201).json({ id: shortID });
+    console.log(shortID);
+    res.status(201).json({ id: shortID, longUrl: newURL.redirectURL });
   } catch (error) {
     console.log(error.message);
     res.status(500).send(error.message);

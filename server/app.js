@@ -10,6 +10,6 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 const urlRoutes = require("./routes/url.routes");
-app.use("/url/", urlRoutes);
+app.use("/url", urlRoutes);
 
 module.exports = app;
