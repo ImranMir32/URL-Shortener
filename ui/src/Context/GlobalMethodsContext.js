@@ -26,14 +26,15 @@ const GlobalMethodsProvider = ({ children }) => {
   };
 
   const getHistory = async (values) => {
+    console.log(values);
     try {
-      const url = "http://localhost:4001/url/analytics/:shortId";
+      const url = `http://localhost:4001/url/analytics/${values.url}`;
       const response = await axios({
         method: "GET",
         url,
         data: values,
       });
-      console.log("name: ", response);
+      console.log("name: ", response.totalClicks);
       setHistory(response);
       return response.status;
     } catch (error) {

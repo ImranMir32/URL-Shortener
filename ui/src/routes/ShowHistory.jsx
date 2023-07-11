@@ -1,23 +1,26 @@
-import React, { useContext } from "react";
+import { React, useState, useContext } from "react";
 import "../styles/home.css";
 import { useFormik } from "formik";
 import { GlobalMethodsContext } from "../Context/GlobalMethodsContext";
+import { GlobalStateContext } from "../Context/Global_Context";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+// import { useNavigate } from "react-router-dom";
 
-const Home = () => {
-  const { createUrl } = useContext(GlobalMethodsContext);
-  const navigate = useNavigate();
+const ShowHistory = () => {
+  const { getHistory } = useContext(GlobalMethodsContext);
+  const { history } = useContext(GlobalStateContext);
+  const [show, setShow] = useState(true);
+  //   const navigate = useNavigate();
 
   const onSubmit = async (values, actions) => {
     console.log("ok");
     console.log(JSON.stringify(values));
-    const res = await createUrl(values);
-
-    console.log("result->", res);
-    actions.resetForm();
+    const res = await getHistory(values);
     if (res === 201) {
-      navigate("/result");
+      setShow(false);
+      console.log("-->", history);
+      //   setUrl(res.data.longUrl);
     } else {
       toast.error("Url required", {
         position: toast.POSITION.TOP_RIGHT,
@@ -40,6 +43,7 @@ const Home = () => {
   });
 
   console.log(errors);
+
   return (
     <div>
       <h1>Free URL Shortener</h1>
@@ -50,7 +54,7 @@ const Home = () => {
             onChange={handleChange}
             id="url"
             type="url"
-            placeholder="Enter the Link here"
+            placeholder="Enter the Shorten URL"
             onBlur={handleBlur}
           />
         </form>
@@ -60,27 +64,27 @@ const Home = () => {
           type="submit"
           className="button"
         >
-          Shorten URL
+          Get History
         </div>
       </div>
+      {show ? (
+        <div className="details">
+          <p>Enter the Shorten URL to get the history</p>
+        </div>
+      ) : (
+        <div className="details">
+          <p>
+            Long Url:{" "}
+            <a href={history.data.longUrl} target="_blank" rel="noreferrer">
+              <span className="longurl">{history.data.longUrl}</span>
+            </a>
+          </p>
+          <p>Total visits: {history.data.totalClicks}</p>
+        </div>
+      )}
       <ToastContainer />
-      <div className="details">
-        <p>
-          ShortURL is a free tool to shorten URLs and generate short links. URL
-          shortener allows you to create a shortened link, making it easy to
-          share.{" "}
-          <span
-            onClick={() => {
-              navigate("/show-history");
-            }}
-          >
-            Click here
-          </span>{" "}
-          to know the history of a shortened URL.
-        </p>
-      </div>
     </div>
   );
 };
 
-export default Home;
+export default ShowHistory;

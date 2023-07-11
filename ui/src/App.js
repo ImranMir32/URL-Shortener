@@ -6,6 +6,7 @@ import Result from "./routes/Results";
 
 import { GlobalStateProvider } from "./Context/Global_Context";
 import { GlobalMethodsProvider } from "./Context/GlobalMethodsContext";
+import ShowHistory from "./routes/ShowHistory";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,11 @@ const router = createBrowserRouter([
   {
     path: "/result",
     element: <Result />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/show-history",
+    element: <ShowHistory />,
     errorElement: <ErrorPage />,
   },
 ]);

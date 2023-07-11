@@ -50,6 +50,7 @@ const getHistory = async (req, res) => {
       });
     }
     res.status(201).json({
+      longUrl: result.redirectURL,
       totalClicks: result.visitHistory.length,
       analytics: result.visitHistory,
     });
