@@ -154,3 +154,27 @@ h2 {
   /* background-color: red; */
   width: 65px;
 }
+
+/* Media Queries for responsiveness */
+
+/* Small devices (mobile phones) */
+@media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 32px;
+    margin-top: 30px;
+  }
+
+  input,
+  select {
+    max-width: 100%;
+  }
+
+  .button {
+    max-width: 100%;
+  }
+
+  .details,
+  .history {
+    max-width: 100%;
+  }
+}
