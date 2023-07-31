@@ -41,7 +41,7 @@ const Home = () => {
 
   console.log(errors);
   return (
-    <div>
+    <div className="container">
       <h1>Free URL Shortener</h1>
       <div className="main">
         <form class="form" onSubmit={handleSubmit} autoComplete="off">

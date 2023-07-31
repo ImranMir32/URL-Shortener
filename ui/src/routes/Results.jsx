@@ -3,9 +3,11 @@ import "../styles/home.css";
 import { GlobalStateContext } from "../Context/Global_Context";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const Result = () => {
   const { url, longUrl } = useContext(GlobalStateContext);
+  const navigate = useNavigate();
   console.log(url);
 
   const handleCopy = async () => {
@@ -20,8 +22,14 @@ const Result = () => {
   };
 
   return (
-    <div>
-      <h1>Your shortened URL</h1>
+    <div className="container">
+      <h1
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        Free URL Shortener
+      </h1>
 
       <div className="main">
         <input value={url || ""} readOnly />
@@ -30,21 +38,29 @@ const Result = () => {
         </div>
         <ToastContainer />
       </div>
-      <div className="details">
-        <p>
-          Long Url:{" "}
-          <a href={longUrl} target="_blank" rel="noreferrer">
-            <span className="longurl">{longUrl}</span>
-          </a>
-        </p>
-      </div>
+      {/* <div className="details">
+       
+      </div> */}
 
       <div className="details">
-        <p>
-          Copy the shortened link and share it in messages, texts, posts,
-          websites and other locations.<span>Click here</span> to know the
-          history of a shortened URL.
-        </p>
+        <h2>Long Url:</h2>
+        <a href={longUrl} target="_blank" rel="noreferrer">
+          {longUrl}
+        </a>
+        <div className="details-info">
+          <p>
+            Copy the shortened link and share it in messages, texts, posts,
+            websites and other locations.{" "}
+            <span
+              onClick={() => {
+                navigate("/show-history");
+              }}
+            >
+              Click here
+            </span>{" "}
+            to know the history of a shortened URL.
+          </p>
+        </div>
       </div>
     </div>
   );

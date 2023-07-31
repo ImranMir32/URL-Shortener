@@ -5,18 +5,23 @@ import { GlobalMethodsContext } from "../Context/GlobalMethodsContext";
 import { GlobalStateContext } from "../Context/Global_Context";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ShowHistory = () => {
   const { getHistory } = useContext(GlobalMethodsContext);
   const { history } = useContext(GlobalStateContext);
   const [show, setShow] = useState(true);
-  //   const navigate = useNavigate();
+
+  const navigate = useNavigate();
 
   const onSubmit = async (values, actions) => {
     console.log("ok");
     console.log(JSON.stringify(values));
-    const res = await getHistory(values);
+
+    const parts = values.url.split("/");
+    const onlyUrl = parts[parts.length - 1];
+    console.log(onlyUrl);
+    const res = await getHistory(onlyUrl);
     if (res === 201) {
       setShow(false);
       console.log("-->", history);
@@ -26,6 +31,24 @@ const ShowHistory = () => {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
+  };
+
+  const covertIntoTime = (timestamp) => {
+    const date = new Date(timestamp);
+
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+
+    const obj = {
+      Datetime: `${day}-${month}-${year}`,
+      Time: `${hours}:${minutes}:${seconds}`,
+    };
+
+    return obj;
   };
 
   const {
@@ -45,8 +68,14 @@ const ShowHistory = () => {
   console.log(errors);
 
   return (
-    <div>
-      <h1>Free URL Shortener</h1>
+    <div className="container">
+      <h1
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        Free URL Shortener
+      </h1>
       <div className="main">
         <form class="form" onSubmit={handleSubmit} autoComplete="off">
           <input
@@ -73,13 +102,28 @@ const ShowHistory = () => {
         </div>
       ) : (
         <div className="details">
-          <p>
-            Long Url:{" "}
-            <a href={history.data.longUrl} target="_blank" rel="noreferrer">
-              <span className="longurl">{history.data.longUrl}</span>
-            </a>
-          </p>
-          <p>Total visits: {history.data.totalClicks}</p>
+          <h2>Long Url:</h2>
+          <a href={history.data.longUrl} target="_blank" rel="noreferrer">
+            <span className="longurl">{history.data.longUrl}</span>
+          </a>
+
+          <div>
+            <p>Total visits: {history.data.totalClicks}</p>
+            <p>History</p>
+            <div className="history">
+              <div className="history-info">
+                <div className="info">Time</div>
+                <div className="info">Date</div>
+              </div>
+              {history.data.analytics.map((list) => (
+                <div key={list._id} className="time-date">
+                  <p className="line">{covertIntoTime(list.timestamp).Time}</p>
+                  <p>-</p>
+                  <p>{covertIntoTime(list.timestamp).Datetime}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       )}
       <ToastContainer />
