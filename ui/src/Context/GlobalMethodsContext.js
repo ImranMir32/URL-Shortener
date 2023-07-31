@@ -9,7 +9,7 @@ const GlobalMethodsProvider = ({ children }) => {
 
   const createUrl = async (values) => {
     try {
-      const url = "http://localhost:4001/url/";
+      const url = "https://url-shortener-iwos.onrender.com/url/";
       const response = await axios({
         method: "POST",
         url,
@@ -28,7 +28,7 @@ const GlobalMethodsProvider = ({ children }) => {
   const getHistory = async (values) => {
     console.log(values);
     try {
-      const url = `http://localhost:4001/url/analytics/${values}`;
+      const url = `https://url-shortener-iwos.onrender.com/url/analytics/${values}`;
       const response = await axios({
         method: "GET",
         url,
