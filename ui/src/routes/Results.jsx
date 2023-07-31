@@ -12,7 +12,7 @@ const Result = () => {
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(`http://localhost:4001/url/${url}`);
+      await navigator.clipboard.writeText(`https://url-shortener-iwos.onrender.com/url/${url}`);
       toast.success("Shorten URL copied to clipboard", {
         position: toast.POSITION.TOP_RIGHT,
       });
